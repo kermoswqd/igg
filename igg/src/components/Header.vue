@@ -1,5 +1,24 @@
 <template>
   <div class="home">
+    <transition name="nav">
+      <div v-show="navShow" class="nav">
+        <span @click="showNav">关闭</span>
+        <ul>
+          <li>全部</li>
+          <li>游戏</li>
+          <li class="second">王国纪元</li>
+          <li class="second">城堡争霸</li>
+          <li>类别</li>
+          <li class="second">福带</li>
+          <li class="second">数码配件</li>
+          <li class="second">收藏品</li>
+          <li class="second">鼠标垫</li>
+          <li class="second">杯子</li>
+          <li class="second">服饰</li>
+          <li class="second">其他</li>
+        </ul>
+      </div>
+    </transition>
     <mt-header class="header">
       <div class="left" slot="left">
         <img @click="showNav" src="../assets/img/type.png" alt="" />
@@ -51,6 +70,7 @@ export default {
   data() {
     return {
       isLogin: "",
+      navShow: false,
     };
   },
   computed: {
@@ -63,7 +83,7 @@ export default {
       this.$router.push("/");
     },
     showNav() {
-      this.$router.push("/nav");
+      this.navShow = !this.navShow;
     },
   },
 };
@@ -139,5 +159,52 @@ export default {
   margin: 20px;
 
   border-bottom: 1px solid #eee;
+}
+
+.home .nav-enter {
+  width: 0;
+  /* opacity: 0; */
+  height: 812px;
+}
+.home .nav-enter-active {
+  overflow: hidden;
+  transition: all 0.8s linear;
+}
+.home .nav-enter-to {
+  width: 375px;
+  background-color: aquamarine;
+  opacity: 1;
+}
+
+.home .nav-leave {
+  /* width: 0; */
+  height: 812px;
+}
+.home .nav-leave-active {
+  transition: all 0.8s linear;
+  overflow: hidden;
+}
+.home .nav-leave-to {
+  width: 0;
+  /* opacity: 0; */
+  background-color: rgb(255, 255, 255);
+}
+
+.home .nav {
+  /* width: 375px; */
+  height: 812px;
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+}
+.home .nav span {
+  float: right;
+}
+.home .nav {
+  list-style: none;
+}
+.home .nav .second {
+  padding-left: 20px;
+  /* height: 70px;
+  line-height: 30px; */
 }
 </style>
