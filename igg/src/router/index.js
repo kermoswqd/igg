@@ -7,6 +7,7 @@ import Register from '../views/Register.vue'
 import Details from '../views/Details.vue'
 import Checkout from '../views/Checkout.vue'
 import Nav from '../views/Nav.vue'
+import Wangguo from '../views/Wangguo.vue'
 
 Vue.use(VueRouter)
 
@@ -18,6 +19,10 @@ const routes = [
   {
     path: '/cup',
     component: Cup
+  },
+  {
+    path: '/wangguo',
+    component: Wangguo
   },
   {
     path: '/login',

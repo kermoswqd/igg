@@ -1,16 +1,16 @@
 <template>
   <div class="details">
     <mt-swipe class="banner" :auto="0">
-      <mt-swipe-item><img :src="product.img1" alt="" /></mt-swipe-item>
-      <mt-swipe-item><img :src="product.img2" alt="" /></mt-swipe-item>
-      <mt-swipe-item><img :src="product.img3" /></mt-swipe-item>
+      <mt-swipe-item v-for="(v,i) of product" :key="i"><img :src="v.carouselImg" alt="" /></mt-swipe-item>
+      <!-- <mt-swipe-item><img :src="product.img2" alt="" /></mt-swipe-item>
+      <mt-swipe-item><img :src="product.img3" /></mt-swipe-item> -->
     </mt-swipe>
     <div class="content">
-      <div class="title">{{ product.title }}</div>
-      <div class="price">{{ product.price }}.00</div>
+      <div class="title">{{productsInfo.title}}</div>
+      <div class="price">{{ productsInfo.price }}.00</div>
       <div class="star_col"><span>5.0</span> <em>加入收藏</em></div>
       <div class="desc">
-        <div v-html="product.desc"></div>
+        <div v-html="productsInfo.desc"></div>
         <!-- <p>保温效力: 68°C以上(6小时)</p>
         <p>保冷效力: 10°C以下(6小时)</p> -->
       </div>
@@ -37,14 +37,9 @@
         <span>需要帮助？</span>
       </div>
       <div class="imgdesc">
-        <img
-          src="https://statics.igg.com/shop/goods/2020/08/11/20200811212908_7116_4497.jpg"
-          alt=""
-        />
-        <img
-          src="https://statics.igg.com/shop/goods/2020/08/11/20200811214323_2137_8916.jpg"
-          alt=""
-        />
+        <div v-for="(v,i) of product" :key="i">
+          <img :src="v.detailImg" alt="">
+        </div>
       </div>
     </div>
     <my-footer></my-footer>
@@ -57,6 +52,7 @@ export default {
   data() {
     return {
       product: [],
+      productsInfo: [],
       num: 0,
     };
   },
@@ -65,7 +61,7 @@ export default {
     myaAdCar() {
       let obj = {
         num: this.num,
-        product: this.product,
+        product: this.productsInfo,
       };
       obj.product.num = this.num;
       if (this.num > 0) {
@@ -87,20 +83,36 @@ export default {
     },
   },
   mounted() {
-    // console.log(this.$route.params.id);
+    console.log(this.$route.params.id);
     let id = this.$route.params.id;
-    this.axios
-      .get("/details", {
-        params: { id },
-      })
-      .then((res) => {
-        console.log(res.data[0]);
-        let data = res.data[0];
-        data.img1 = require("../assets/img/" + data.img1);
-        data.img2 = require("../assets/img/" + data.img2);
-        data.img3 = require("../assets/img/" + data.img3);
-        this.product = data;
+    // this.axios
+    //   .get("/details", {
+    //     params: { id },
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data[0]);
+    //     let data = res.data[0];
+    //     data.img1 = require("../assets/img/" + data.img1);
+    //     data.img2 = require("../assets/img/" + data.img2);
+    //     data.img3 = require("../assets/img/" + data.img3);
+    //     this.product = data;
+    //   });
+    this.axios.get('/details',{
+      params:{
+        id
+      }
+    }).then(res=>{
+      console.log(res.data);
+      res.data.forEach(el => {
+        el.carouselImg=require('../assets/img/'+el.carouselImg)
+        el.detailImg=require('../assets/img/'+el.detailImg)
+        el.img=require('../assets/img/'+el.img)
+        this.product.push(el)
       });
+      // console.log(this.product[0]);
+      this.productsInfo=this.product[0]
+      console.log(this.productsInfo);
+    })
   },
 };
 </script>

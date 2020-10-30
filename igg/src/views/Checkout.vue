@@ -1,14 +1,29 @@
 <template>
   <div class="checkCar">
     <div class="allselect">
-      <input type="checkbox" name="" id="" /><i class="checkAll">全选</i>
+      <input
+        type="checkbox"
+        @click="checkAll"
+        :checked="allChecked"
+        name=""
+        id=""
+      /><i class="checkAll">全选</i>
       <span @click="myDelAll">
         <img src="https://store.igg.com/m/images/delete.png" alt="" />
         删除
       </span>
     </div>
     <div class="card" v-for="(v, i) of shopList" :key="i">
-      <div class="left"><input type="checkbox" name="" id="" /></div>
+      <div class="left">
+        <input
+          type="checkbox"
+          @click="isCheckAll(i)"
+          ref="checkI"
+          :checked="bool"
+          name=""
+          id=""
+        />
+      </div>
       <div class="right">
         <div class="img">
           <img :src="v.img1" alt="" />
@@ -43,24 +58,64 @@ export default {
   data() {
     return {
       total: 0,
+      bool: true,
+      allChecked: true,
     };
   },
   computed: {
     ...mapState(["shopList"]),
   },
   mounted() {
-    console.log(this.shopList);
     this.getTotal();
+  },
+  watch: {
+    allChecked() {
+      this.getTotal();
+    },
   },
   methods: {
     ...mapMutations(["delAll"]),
     getTotal() {
       this.total = 0;
-      this.shopList.forEach((el) => {
-        this.total += el.price * el.num;
-      });
+      let inputs = this.$refs.checkI;
+      for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].checked) {
+          this.total += this.shopList[i].num * this.shopList[i].price;
+        }
+      }
     },
-    totalMoney() {},
+    isCheckAll(index) {
+      let inputs = this.$refs.checkI;
+      let s = 0;
+      // if (inputs[index].checked) {
+      //   this.total += this.shopList[index].num * this.shopList[index].price;
+      // } else {
+      //   this.total -= this.shopList[index].num * this.shopList[index].price;
+      // }
+      this.getTotal();
+      for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].checked) {
+          s++;
+        }
+      }
+      console.log(s);
+      if (s == this.shopList.length) {
+        this.allChecked = true;
+      } else {
+        this.allChecked = false;
+      }
+    },
+    checkAll() {
+      // let inputs = this.$refs.checkI;
+      this.allChecked = !this.allChecked;
+      console.log(this.allChecked);
+
+      if (this.allChecked) {
+        this.bool = true;
+      } else {
+        this.bool = false;
+      }
+    },
     del(i) {
       // console.log(i);
       this.shopList.splice(i, 1);

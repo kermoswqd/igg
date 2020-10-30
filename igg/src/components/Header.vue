@@ -1,12 +1,15 @@
 <template>
   <div class="home">
+    <!-- 左侧导航 -->
     <transition name="nav">
-      <div v-show="navShow" class="nav">
-        <span @click="showNav">关闭</span>
+      <div v-show="navShow" @click="closed" class="nav">
+        <span @click="showNav">x</span>
         <ul>
           <li>全部</li>
           <li>游戏</li>
-          <li class="second">王国纪元</li>
+          <li class="second">
+            <router-link to="/wangguo">王国纪元</router-link>
+          </li>
           <li class="second">城堡争霸</li>
           <li>类别</li>
           <li class="second">福带</li>
@@ -48,9 +51,10 @@
           <span @click="myLogout">注销</span>
         </li>
       </mt-tab-item>
+      <!-- 搜索 -->
       <mt-tab-item>
         <li class="user_info">
-          <i class="iconfont icon-search"></i></li
+          <i @click="showSearch" class="iconfont icon-search"></i></li
       ></mt-tab-item>
       <mt-tab-item>
         <router-link to="/checkout">
@@ -61,6 +65,9 @@
         >
       </mt-tab-item>
     </mt-navbar>
+    <mt-search v-show="searchIsShow">
+      <mt-cell title="sousuo " value="sd"> </mt-cell>
+    </mt-search>
   </div>
 </template>
 
@@ -71,6 +78,7 @@ export default {
     return {
       isLogin: "",
       navShow: false,
+      searchIsShow: true,
     };
   },
   computed: {
@@ -85,6 +93,12 @@ export default {
     showNav() {
       this.navShow = !this.navShow;
     },
+    closed() {
+      this.navShow = !this.navShow;
+    },
+    showSearch() {
+      this.searchIsShow = !this.searchIsShow;
+    },
   },
 };
 </script>
@@ -95,6 +109,12 @@ export default {
 }
 .home a {
   text-decoration: none;
+}
+.mint-search {
+  height: 44px;
+}
+.mint-search-list {
+  display: none;
 }
 .home .header {
   width: 375px;
@@ -146,12 +166,9 @@ export default {
 .home .nav {
   width: 100%;
   height: 100%;
-  /* width: 1px; */
   background-color: rgb(255, 255, 255);
   position: fixed;
   z-index: 9999;
-  /* overflow: hidden; */
-  /* display: none; */
   font-size: 16px;
 }
 .home .nav li {
@@ -160,38 +177,27 @@ export default {
 
   border-bottom: 1px solid #eee;
 }
-
+.home .nav-enter li {
+  width: 0;
+}
 .home .nav-enter {
   width: 0;
-  /* opacity: 0; */
   height: 812px;
+}
+.home .nav-enter-to li {
+  width: 375px;
 }
 .home .nav-enter-active {
   overflow: hidden;
-  transition: all 0.8s linear;
-}
-.home .nav-enter-to {
-  width: 375px;
-  background-color: aquamarine;
-  opacity: 1;
-}
-
-.home .nav-leave {
-  /* width: 0; */
-  height: 812px;
+  transition: all 0.5s linear;
 }
 .home .nav-leave-active {
-  transition: all 0.8s linear;
-  overflow: hidden;
+  transition: all 0.5s linear;
 }
 .home .nav-leave-to {
-  width: 0;
-  /* opacity: 0; */
-  background-color: rgb(255, 255, 255);
+  transform: translateX(-375px);
 }
-
 .home .nav {
-  /* width: 375px; */
   height: 812px;
   overflow: hidden;
   background-color: rgb(255, 255, 255);

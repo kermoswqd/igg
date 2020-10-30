@@ -13,6 +13,7 @@ var registerRouter = require('./routes/register');
 var latestproductRouter = require('./routes/latestproduct');
 var hotproductRouter = require('./routes/hotproduct');
 var detailsRouter = require('./routes/details');
+var wangguoRouter = require('./routes/wangguo');
 
 var app = express();
 
@@ -37,6 +38,7 @@ app.use('/register', registerRouter);
 app.use('/latestproduct', latestproductRouter);
 app.use('/hotproduct', hotproductRouter);
 app.use('/details', detailsRouter);
+app.use('/wangguo', wangguoRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

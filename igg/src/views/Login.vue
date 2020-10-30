@@ -110,14 +110,14 @@ export default {
     ...mapMutations(["logined"]),
     checkUsername() {
       let usernameRegExp = /^[0-9a-zA-Z_]{6,20}$/;
-      if (usernameRegExp.test(this.username)) {
+      if (usernameRegExp.test(this.uname)) {
         this.usernameState = "success";
         return true;
       } else {
         this.usernameState = "error";
         this.$toast({
           message: "用户名为必填项",
-          position: "top",
+          position: "center",
           duration: "2000",
         });
         return false;
@@ -126,14 +126,14 @@ export default {
     checkPassword() {
       //密码的正则表达式
       let passwordRegExp = /^[0-9A-Za-z]{8,20}$/;
-      if (passwordRegExp.test(this.password)) {
+      if (passwordRegExp.test(this.upwd)) {
         this.passwordState = "success";
         return true;
       } else {
         this.passwordState = "error";
         this.$toast({
           message: "密码必须为字母、数字的组合体",
-          position: "top",
+          position: "center",
           duration: "2000",
         });
         return false;
@@ -145,9 +145,20 @@ export default {
           .post("/login", `uname=${this.uname}&upwd=${this.upwd}`)
           .then((res) => {
             console.log(res.data);
-            sessionStorage.setItem("uname", this.uname);
-            this.logined(this.uname);
-            this.$router.push("/");
+            if (res.data.code == 1) {
+              sessionStorage.setItem("uname", this.uname);
+              this.logined(this.uname);
+              this.$toast({
+                message: "登录成功",
+                position: "center",
+                duration: "1000",
+              });
+              setTimeout(() => {
+                this.$router.push("/");
+              }, 1000);
+            } else {
+              this.$messagebox("登录提示", "用户名或者密码错误");
+            }
           });
       }
     },
