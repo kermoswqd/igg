@@ -26,7 +26,7 @@
       </div>
       <div class="right">
         <div class="img">
-          <img :src="v.img1" alt="" />
+          <img :src="v.img" alt="" />
         </div>
         <div class="desc">
           <span class="title">{{ v.title }}</span>

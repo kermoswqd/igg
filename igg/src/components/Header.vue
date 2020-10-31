@@ -78,7 +78,7 @@ export default {
     return {
       isLogin: "",
       navShow: false,
-      searchIsShow: true,
+      searchIsShow: false,
     };
   },
   computed: {
